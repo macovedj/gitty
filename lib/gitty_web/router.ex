@@ -17,6 +17,10 @@ defmodule GittyWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    resources "/repo", RepoController
+      # resources "/content", ContentController
+    # end
+    get "/repo/:type/:path/:hash", FileController, :show
   end
 
   # Other scopes may use custom stacks.

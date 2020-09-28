@@ -1,0 +1,6 @@
+<section class="phx-hero">
+  <p>Checkout your repo</p>
+  <article class="column">
+    <%= @type %>
+  </article>
+</section>

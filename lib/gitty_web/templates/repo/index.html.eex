@@ -1,0 +1,10 @@
+<section class="phx-hero">
+  <p>Checkout your repo</p>
+  <article class="column">
+    <%= for content <- @contents do %>
+      <tr>
+        <td><%= link "#{content["name"]}", to: Routes.file_path(@conn, :show, String.to_atom(content["type"]), String.to_atom(content["name"]), String.to_atom(content["hash"])) %>
+      </tr>
+    <% end %>
+  </article>
+</section>

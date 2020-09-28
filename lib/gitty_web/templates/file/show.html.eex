@@ -1,0 +1,15 @@
+<section class="phx-hero">
+  <article class="column">
+    <table>
+      <%= if @type == "tree" do %>
+        <%= for content <- @contents do %>
+          <td><%= link "#{content["name"]}", to: Routes.file_path(@conn, :show, String.to_atom(content["type"]), String.to_atom(content["name"]), String.to_atom(content["hash"])) %>
+          <tr><%= content["name"] %> </tr>
+        <% end %>
+      <% end %>
+      <%= if @type == "blob" do %>
+        <tr><%= @contents %> </tr>
+      <% end %>
+    </table>
+  </article>
+</section>

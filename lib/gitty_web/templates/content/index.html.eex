@@ -1,0 +1,11 @@
+<section class="phx-hero">
+  <p>Checkout your repo</p>
+  <article class="column">
+    <% @contents %>
+    <%# <%= for content <- @contents do %>
+      <%# <tr> %>
+        <%# <td><%= content["name"] %>
+      <%# </tr> %>
+    <%# <% end %>
+  </article>
+</section>

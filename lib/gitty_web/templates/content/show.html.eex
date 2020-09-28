@@ -1,0 +1,12 @@
+<section class="phx-hero">
+  <article class="column">
+    <%# <%= @contents %>
+      <table>
+    <%= for content <- @contents do %>
+      <%# <tr> %>
+        <tr><%= content %></tr>
+      <%# </tr> %>
+    <% end %>
+        </table>
+  </article>
+</section>
