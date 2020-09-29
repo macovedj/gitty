@@ -2,12 +2,13 @@
   <article class="column">
     <table>
       <%= if @type == "tree" do %>
+        <h1><%= @path %> </h1>
         <%= for content <- @contents do %>
-          <td><%= link "#{content["name"]}", to: Routes.file_path(@conn, :show, String.to_atom(content["type"]), String.to_atom(content["name"]), String.to_atom(content["hash"])) %>
-          <tr><%= content["name"] %> </tr>
+          <td><%= link "#{content["name"]}", to: Routes.file_path(@conn, :show, String.to_atom(content["type"]), "#{@path}/#{String.to_atom(content["name"])}", String.to_atom(content["hash"])) %> </td>
         <% end %>
       <% end %>
       <%= if @type == "blob" do %>
+        <h1><%= @path %> </h1>
         <tr><%= @contents %> </tr>
       <% end %>
     </table>
