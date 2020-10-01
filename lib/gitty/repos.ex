@@ -53,4 +53,12 @@ defmodule Gitty.Repos do
     |> Enum.map(fn [a, b] -> %{"type" => a, "hash" => Enum.at(b, 0), "name" => Enum.at(b, 1)} end)
   end
 
+  def get_most_recent_commit() do
+    {logs, 0} = System.cmd("git", ["log"])
+    String.split(logs, " ")
+    |> Enum.at(1)
+    |> String.split("\n")
+    |> Enum.at(0)
+  end
+
 end

@@ -1,2 +1,2 @@
-_build
-assets
+_build/*
+assets/*

@@ -4,8 +4,10 @@ defmodule GittyWeb.RepoController do
   alias Gitty.Repos.RootCommit
 
   def index(conn, _params) do
-    repo = %RootCommit{sha: '55ad43edf54ddadd66aae44569855e5dfc0cadc1'}
+    sha = Repos.get_most_recent_commit()
+    repo = %RootCommit{sha: sha}
     contents = Repos.show_root(repo)
+    Repos.get_most_recent_commit()
     render(conn, "index.html", contents: contents, name: "gitty")
   end
 
