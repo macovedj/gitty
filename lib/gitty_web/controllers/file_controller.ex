@@ -13,11 +13,10 @@ defmodule GittyWeb.FileController do
       "blob" ->
         Repos.cat_file(hash)
       "tree" ->
-        { Repos.ls_folder(hash),0}
+        { Repos.ls_folder(hash, %{"object_type" => "tree"}),0}
       _ ->
         {"default", 0}
     end
-    IO.inspect(content)
-    render(conn, "show.html", path: path, type: type, contents: content)
+    render(conn, "show.html", path: path, type: type, contents: content, branches: Repos.get_branches())
   end
 end

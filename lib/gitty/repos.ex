@@ -42,15 +42,28 @@ defmodule Gitty.Repos do
     cat_file(sha)
   end
 
-  def ls_folder(sha) do
-    {content, 0} = cat_file(sha)
-    content
-    |> String.split("\n")
-    |> Enum.map(fn x -> String.split(x, " ") end)
-    |> Enum.map(fn x -> List.delete_at(x, 0) end)
-    |> Enum.filter(fn x -> Kernel.length(x) != 0 end)
-    |> Enum.map(fn [a, b] -> [a, String.split(b, "\t")] end)
-    |> Enum.map(fn [a, b] -> %{"type" => a, "hash" => Enum.at(b, 0), "name" => Enum.at(b, 1)} end)
+  def ls_folder(sha, %{"object_type" => object_type}) do
+    case object_type do
+      "tree" ->
+        {content, 0} = cat_file(sha)
+        IO.inspect(content)
+        content
+        |> String.split("\n")
+        |> Enum.map(fn x -> String.split(x, " ") end)
+        |> Enum.map(fn x -> List.delete_at(x, 0) end)
+        |> Enum.filter(fn x -> Kernel.length(x) != 0 end)
+        |> Enum.map(fn [a, b] -> [a, String.split(b, "\t")] end)
+        |> Enum.map(fn [a, b] -> %{"type" => a, "hash" => Enum.at(b, 0), "name" => Enum.at(b, 1)} end)
+      "commit" ->
+        {content, 0 }= cat_file(sha)
+        content
+        |> String.split(" ")
+        |> Enum.at(1)
+        |> String.split("\n")
+        |> Enum.at(0)
+      _ ->
+        "hello"
+    end
   end
 
   def get_most_recent_commit() do
@@ -59,6 +72,20 @@ defmodule Gitty.Repos do
     |> Enum.at(1)
     |> String.split("\n")
     |> Enum.at(0)
+  end
+
+  def get_most_recent_commit(id) do
+    # {logs, 0} = System.cmd("git", ["log", "#{id}"])
+    {sha, 0} = System.cmd("cat", ["./.git/refs/heads/#{id}"])
+    sha
+    |> String.split("\n")
+    |> Enum.at(0)
+  end
+
+  def get_branches() do
+    {branches, 0} = System.cmd("ls", ["./.git/refs/heads"])
+    branches
+    |> String.split("\n")
   end
 
 end
