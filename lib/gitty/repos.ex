@@ -46,7 +46,6 @@ defmodule Gitty.Repos do
     case object_type do
       "tree" ->
         {content, 0} = cat_file(sha)
-        IO.inspect(content)
         content
         |> String.split("\n")
         |> Enum.map(fn x -> String.split(x, " ") end)
