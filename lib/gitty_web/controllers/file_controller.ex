@@ -8,16 +8,15 @@ defmodule GittyWeb.FileController do
     contents = Repos.show_root(repo)
     render(conn, "index.html", contents: contents)
   end
-  def show(conn, %{"path" => path, "type" => type, "hash" => hash}) do
+  def show(conn, %{"branch" => branch, "path" => path, "type" => type, "hash" => hash}) do
     {content, 0} = case type do
       "blob" ->
         Repos.cat_file(hash)
       "tree" ->
-        { Repos.ls_folder(hash),0}
+        { Repos.ls_folder(hash, %{"object_type" => "tree"}),0}
       _ ->
         {"default", 0}
     end
-    IO.inspect(content)
-    render(conn, "show.html", path: path, type: type, contents: content)
+    render(conn, "show.html", branch: branch, path: path, type: type, contents: content, branches: Repos.get_branches())
   end
 end

@@ -1,9 +1,12 @@
 <section class="phx-hero">
+  <%= form_for @conn, Routes.repo_path(@conn, :index), [as: :foo], fn f -> %>
+    <%= select f, :name, @branches %>
+  <% end %>
   <%= @name %>
   <article class="column">
     <%= for content <- @contents do %>
       <tr>
-        <td><%= link "#{content["name"]}", to: Routes.file_path(@conn, :show, String.to_atom(content["type"]), "gitty/#{String.to_atom(content["name"])}", String.to_atom(content["hash"])) %>
+        <td><%= link "#{content["name"]}", to: Routes.file_path(@conn, :show, @branch, String.to_atom(content["type"]), "gitty/#{String.to_atom(content["name"])}", String.to_atom(content["hash"])) %>
       </tr>
     <% end %>
   </article>

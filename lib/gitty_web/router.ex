@@ -20,7 +20,7 @@ defmodule GittyWeb.Router do
     resources "/repo", RepoController
       # resources "/content", ContentController
     # end
-    get "/repo/:type/:path/:hash", FileController, :show
+    get "/repo/:branch/:type/:path/:hash", FileController, :show
   end
 
   # Other scopes may use custom stacks.

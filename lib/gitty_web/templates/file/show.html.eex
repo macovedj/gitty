@@ -1,10 +1,15 @@
 <section class="phx-hero">
   <article class="column">
+    <%# <%= for content <- @contents do %>
+      <%# <%= form_for @conn, Routes.file_path(@conn, :show, String.to_atom(content["type"]), "#{@path}/#{String.to_atom(content["name"])}", String.to_atom(content["hash"])), [as: :foo], fn f -> %> %>
+        <%# <%= select f, :name, @branches %> %>
+      <%# <% end %> %>
+    <%# <% end %> %> %>
     <table>
       <%= if @type == "tree" do %>
         <h1><%= @path %> </h1>
         <%= for content <- @contents do %>
-          <td><%= link "#{content["name"]}", to: Routes.file_path(@conn, :show, String.to_atom(content["type"]), "#{@path}/#{String.to_atom(content["name"])}", String.to_atom(content["hash"])) %> </td>
+          <td><%= link "#{content["name"]}", to: Routes.file_path(@conn, :show, @branch, String.to_atom(content["type"]), "#{@path}/#{String.to_atom(content["name"])}", String.to_atom(content["hash"])) %> </td>
         <% end %>
       <% end %>
       <%= if @type == "blob" do %>
