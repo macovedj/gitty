@@ -17,6 +17,14 @@ defmodule GittyWeb.FileController do
       _ ->
         {"default", 0}
     end
-    render(conn, "show.html", branch: branch, path: path, type: type, contents: content, branches: Repos.get_branches())
+    render(
+      conn,
+      "show.html",
+      branch: branch,
+      path: path,
+      type: type,
+      contents: (if type == "blob", do: content |> String.split("\n"), else: content),
+      branches: Repos.get_branches()
+    )
   end
 end
