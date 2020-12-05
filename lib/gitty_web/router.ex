@@ -7,6 +7,7 @@ defmodule GittyWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug GittyWeb.Auth
   end
 
   pipeline :api do
@@ -17,6 +18,8 @@ defmodule GittyWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :index
+    resources "/users", UserController, only: [:index, :show, :new, :create]
+    resources "/sessions", SessionController, only: [:new, :create, :delete]
     resources "/repo", RepoController
       # resources "/content", ContentController
     # end
