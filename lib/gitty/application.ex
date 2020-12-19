@@ -4,6 +4,9 @@ defmodule Gitty.Application do
   @moduledoc false
 
   use Application
+  # import Supervisor.Spec
+  alias Gitty.DocumentRegistry
+  import Supervisor.Spec
 
   def start(_type, _args) do
     children = [
@@ -14,9 +17,12 @@ defmodule Gitty.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: Gitty.PubSub},
       # Start the Endpoint (http/https)
-      GittyWeb.Endpoint
+      GittyWeb.Endpoint,
+      GittyWeb.Presence,
       # Start a worker by calling: Gitty.Worker.start_link(arg)
       # {Gitty.Worker, arg}
+      # {GittyWeb., [pool_size: :erlang.system_info(:schedulers_online)]},
+      Gitty.DocumentRegistry
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

@@ -40,5 +40,6 @@
       <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
       <%= @inner_content %>
     </main>
+    <script>window.userToken = "<%= assigns[:user_token] %>"</script>
   </body>
 </html>

@@ -26,10 +26,21 @@ defmodule GittyWeb.UserController do
         conn
         |> GittyWeb.Auth.login(user)
         |> put_flash(:info, "#{user.name} created!")
-        |> redirect(to: Routes.user_path(conn, :index))
+        |> redirect(to: Routes.document_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
+    end
+  end
+
+  def create_anonymous() do
+    unique_user = "Guest" <> to_string(:rand.uniform(99999));
+    if Gitty.Repo.get_by(User, username: unique_user) == nil do
+      anonymous = %User{name: unique_user, username: unique_user, anonymous: true}
+      Gitty.Repo.insert!(anonymous)
+    else
+      # Generate random usernames until we find an unique one
+      create_anonymous()
     end
   end
 

@@ -20,6 +20,7 @@ defmodule GittyWeb.Router do
     get "/", PageController, :index
     resources "/users", UserController, only: [:index, :show, :new, :create]
     resources "/sessions", SessionController, only: [:new, :create, :delete]
+    resources "/documents", DocumentController, only: [:new, :create, :show, :index]
     resources "/repo", RepoController
       # resources "/content", ContentController
     # end

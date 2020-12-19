@@ -1,8 +1,13 @@
 defmodule GittyWeb.UserSocket do
+  require Logger
   use Phoenix.Socket
+  alias GittyWeb.Presence
 
   ## Channels
   # channel "room:*", GittyWeb.RoomChannel
+  channel "documents:*", GittyWeb.DocumentChannel
+  @all "all_users"
+  @max_token_age 2 * 7 * 24 * 60 * 60
 
   # Socket params are passed from the client and can
   # be used to verify and authenticate a user. After
@@ -16,10 +21,22 @@ defmodule GittyWeb.UserSocket do
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
   @impl true
-  def connect(_params, socket, _connect_info) do
-    {:ok, socket}
+  # def connect(_params, socket, _connect_info) do
+  #   {:ok, socket}
+  # end
+
+  def connect(%{"token" => token}, socket, _connect_info) do
+    case Phoenix.Token.verify(socket, "user socket", token, max_age: @max_token_age) do
+      {:ok, user_id} ->
+        Presence.track(self(), @all, user_id, %{})
+        Logger.info "User #{user_id} joined, #{Dict.size(Presence.list(@all))} connections total"
+        {:ok, assign(socket, :user_id, user_id)}
+      {:error, _reason} ->
+        :error
+    end
   end
 
+  def connect(_params, _socket, _connect_info), do: :error
   # Socket id's are topics that allow you to identify all sockets for a given user:
   #
   #     def id(socket), do: "user_socket:#{socket.assigns.user_id}"
@@ -31,5 +48,7 @@ defmodule GittyWeb.UserSocket do
   #
   # Returning `nil` makes this socket anonymous.
   @impl true
-  def id(_socket), do: nil
+  def id(socket) do
+    "users_socket:#{socket.assigns.user_id}"
+  end
 end

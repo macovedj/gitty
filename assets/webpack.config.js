@@ -24,6 +24,10 @@ module.exports = (env, options) => {
       path: path.resolve(__dirname, '../priv/static/js'),
       publicPath: '/js/'
     },
+    resolve: {
+      extensions: [".ts", ".tsx", ".js", ".jsx"],
+      modules: ["deps", "node_modules"]
+    },
     devtool: devMode ? 'eval-cheap-module-source-map' : undefined,
     module: {
       rules: [
@@ -33,6 +37,14 @@ module.exports = (env, options) => {
           use: {
             loader: 'babel-loader'
           }
+        },
+        {
+          test: /\.tsx?$/,
+          use: ["babel-loader", "ts-loader"]
+        },
+        {
+            test: /\.jsx?$/,
+            use: "babel-loader"
         },
         {
           test: /\.[s]?css$/,

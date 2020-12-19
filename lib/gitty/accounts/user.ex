@@ -7,6 +7,8 @@ defmodule Gitty.Accounts.User do
     field :username, :string
     field :password, :string, virtual: true
     field :password_hash, :string
+    field :anonymous, :boolean, default: false
+    has_many :documents, Gitty.Document
 
     timestamps()
   end
