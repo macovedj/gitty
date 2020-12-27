@@ -2,7 +2,7 @@
 
 An app for collaborative text editing in a git repo in the browser.
 No more need for local code, use git commands like `add` and `commit` in the browser while collaborating with teammates in real time.
-Lots of lines of code game straight from [https://github.com/rudi-c/alchemy-book](Alchemy-book), which is inspired by the
+Lots of lines of code game straight from [Alchemy-book](https://github.com/rudi-c/alchemy-book), which is inspired by the
 LOGOOT implementation of a crdt.  Very much a work in progress.
 
 To start your Phoenix server:
